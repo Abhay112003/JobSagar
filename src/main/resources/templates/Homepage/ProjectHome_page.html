@@ -285,8 +285,7 @@
 
   <div id="jobCarousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
-      <div class="carousel-item"
-        style="background-image: url('images/digital-artificial-intelligence-concept-design-background-free-vector.jpg');height : 580px;">
+      <div class="carousel-item" th:style="'background-image: url(' + @{/Logo/Home2.jpg} +');height :540px;'">
         <div class="container text-center carousel-caption-custom">
           <h1 class="display-5 fw-bold">Build a Career You Love</h1>
           <p class="lead">Thousands of openings at your fingertips.</p>
@@ -385,9 +384,9 @@
                 <li><a href="#home" class="text-white text-decoration-none">Home</a></li>
                 <li><a href="#jobs" class="text-white text-decoration-none">Jobs</a></li>
                 <li><a href="#companies" class="text-white text-decoration-none">Companies</a></li>
-                <li><a href="Homepage/contactus" class="text-white text-decoration-none">Contact Us</a></li>
-                <li><a href="Homepage/termsandconditions" class="text-white text-decoration-none"><a
-                        href="Homepage/termsandconditions" class="hover hover-light"><span class="text-light">Terms and
+                <li><a th:href="@{/contactus}" class="text-white text-decoration-none">Contact Us</a></li>
+                <li><a th:href="@{/homepage}" class="text-white text-decoration-none"><a
+                        th:href="@{/termandcondition}" class="hover hover-light"><span class="text-light">Terms and
                         conditions</span></a></a></li>
               </ul>
             </div>

@@ -24,4 +24,10 @@ public class Homepage {
      return "Homepage/contactus";
 }
 
+@RequestMapping("/termandcondition")
+  public String termAndCondition()
+  {
+      return "Homepage/termsandconditions";
+  }
+
 }

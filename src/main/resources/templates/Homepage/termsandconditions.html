@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8" />
@@ -94,7 +94,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <!-- Logo -->
             <div class="d-flex align-items-center gap-3">
-                <img src="../../../../../../../../OneDrive/Desktop/project2/websitelogo.png" class="logo" alt="Logo" />
+                <img src="Logo/websitelogo.png" class="logo" alt="Logo" />
             </div>
 
             <!-- Search Bar (Large Screens) -->
@@ -178,7 +178,7 @@
 
                         <li><a class="dropdown-item" href="#">Career Advice</a></li>
                     </ul>
-                </li <!-- Companies Menu -->
+                 <!-- Companies Menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Companies</a>
                     <ul class="dropdown-menu">
@@ -202,7 +202,7 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="termsandconditions.html">Terms and conditions</a>
+                    <a class="nav-link " th:href="@{/termandcondition}">Terms and conditions</a>
                 </li>
 
             </ul>
@@ -289,7 +289,7 @@
             <div class="row">
                 <!-- Logo Column -->
                 <div class="col-md-3 mb-4">
-                    <img src="../../../../../../../../OneDrive/Desktop/project2/websitelogo.png" alt="Job Portal Logo" class="img-fluid mb-3 w-50">
+                    <img src="Logo/websitelogo.png" alt="Job Portal Logo" class="img-fluid mb-3 w-50">
                     <p>Find your dream job or hire top talent fast — all in one place.</p>
                 </div>
                 <!-- Footer Links and Details -->
@@ -302,8 +302,8 @@
                                 <li><a href="#home" class="text-white text-decoration-none">Home</a></li>
                                 <li><a href="#jobs" class="text-white text-decoration-none">Jobs</a></li>
                                 <li><a href="#companies" class="text-white text-decoration-none">Companies</a></li>
-                                <li><a href="../../../../../../../OneDrive/Desktop/project2/contactus.html" class="text-white text-decoration-none">Contact Us</a></li>
-                                <li><a href="termsandconditions.html" class="text-white text-decoration-none">Terms and
+                                <li><a th:href="@{/contactus}" class="text-white text-decoration-none">Contact Us</a></li>
+                                <li><a th:href="@{/termandcondition}" class="text-white text-decoration-none">Terms and
                                         conditions</a></li>
                             </ul>
                         </div>
