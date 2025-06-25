@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml"  th:fragment="layout(content)">
 
 <head>
   <meta charset="UTF-8" />
@@ -127,8 +127,6 @@
       width: 100%;
     }
 
-
-
     /* navitem->dropdown->subdropdown */
     /* Custom styles for sub-dropdowns */
     .dropdown-submenu {
@@ -192,8 +190,8 @@
         <div class="dropdown">
           <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Signup</button>
           <ul class="dropdown-menu dropdown-menu-end ">
-            <li><a class="dropdown-item" href="#">Employer</a></li>
-            <li><a class="dropdown-item" href="#">Seeker</a></li>
+            <li><a class="dropdown-item" th:href="@{/CompanyRegistration}">Employer</a></li>
+            <li><a class="dropdown-item" href="@{/seekerform}">Seeker</a></li>
           </ul>
         </div>
       </div>
@@ -282,43 +280,7 @@
 
 
   <!-- Theme Final  -->
-
-  <div id="jobCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item" th:style="'background-image: url(' + @{/Logo/Home2.jpg} +');height :540px;'">
-        <div class="container text-center carousel-caption-custom">
-          <h1 class="display-5 fw-bold">Build a Career You Love</h1>
-          <p class="lead">Thousands of openings at your fingertips.</p>
-          <form class="form-inline-group">
-            <input type="text" class="form-control" placeholder="Search Job Titles..." />
-            <select class="form-select">
-              <option value="">Experience</option>
-              <option value="0-1">0-1 Year</option>
-              <option value="1-3">1-3 Years</option>
-              <option value="3-5">3-5 Years</option>
-              <option value="5+">5+ Years</option>
-            </select>
-            <div class="input-group">
-              <span class="input-group-text"><i class="bi bi-geo-alt-fill"></i></span>
-              <input type="text" class="form-control" placeholder="Location" />
-            </div>
-            <button type="submit" class="btn btn-warning">Search</button>
-          </form>
-        </div>
-      </div>
-
-
-    </div>
-
-    <!-- Carousel Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#jobCarousel" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon"></span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#jobCarousel" data-bs-slide="next">
-      <span class="carousel-control-next-icon"></span>
-    </button>
-  </div>
-
+<section th:replace="${content}"></section>
 
 
 
@@ -334,7 +296,7 @@
 
 
   <!-- Given Below is the footer of the home page  -->
-  <footer class="bg-dark text-white pt-5 pb-3">
+  <footer class="bg-dark text-white pt-5 pb-3 ">
     <div class="container">
       <div class="row">
         <div class="col-md-1">
