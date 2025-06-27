@@ -14,13 +14,16 @@
       border-radius: 20px;
       box-shadow: 0 0 10px rgba(0,0,0, 0.3);
      }
+      .nodata{
+        font-size :16px;
+        }
     </style>
 
 </head>
 <body>
 <div class="container mt-4">
-    <h2 class="text-center mb-4">Applied Candidate</h2>
-    <div th:if="${applicationdata.size() == 0}" class="alert alert-info text-center">No Candidate have applied yet..</div>
+    <h2 class="text-center heading mb-4">Applied Candidate</h2><hr>
+    <div th:if="${applicationdata.size() == 0}" class="nodata text-center text-muted">No Candidate have applied yet..</div>
     <div th:each="data , iter : ${applicationdata}" class="card">
         <div class="card-body mb-4">
             <div class="d-flex justify-content-between align-items-center">

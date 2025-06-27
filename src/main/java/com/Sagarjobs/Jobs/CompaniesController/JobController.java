@@ -51,8 +51,12 @@ CompanySaveService companySaveService;
  }
 
 //otp create and send otp
- @PostMapping("/Otpverification")
-public String OtpVerify(@Valid @ModelAttribute("validate") JobEntity validate, BindingResult result, HttpSession session,@RequestParam("logo")MultipartFile logo, Model model) throws Exception
+@PostMapping("/Otpverification")
+public String OtpVerify(@Valid @ModelAttribute("validate") JobEntity validate,
+                        BindingResult result, // immediately after @Valid param
+                        @RequestParam("logo") MultipartFile logo,
+                        HttpSession session,
+                        Model model) throws Exception
 {
 
         if (result.hasErrors()) {
