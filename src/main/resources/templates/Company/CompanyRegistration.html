@@ -41,6 +41,7 @@ color : blue;
     <div class="row g-3 align-items-center">
         <div class="col-lg-center p-3 align-items-center">
             <form class="shadow-lg p-4 mb-2 bg-body rounded"  th:action="@{/Otpverification}" th:onsubmit="return checkPassword()" method="post" enctype="multipart/form-data" th:object="${validate}">
+                <div th:if="${error}" class="alert alert-danger" role="alert"></div>
                 <h2 class="text-center">Registration</h2>
                  <div class=" mb-2 ">
                      <label for="Name" class="form-label">Company Name</label>
@@ -112,7 +113,7 @@ color : blue;
                 <div class="d-grid mt-2">
                     <input type="submit" class="btn btn-primary" value="Registration">
                 </div>
-              </form>
+            </form>
         </div>
         </div>
     </div>

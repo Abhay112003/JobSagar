@@ -17,14 +17,50 @@
       .nodata{
         font-size :16px;
         }
+     @media (max-width:400px) {
+       .img{
+        margin-left: 20px;
+       }
+       .selectbox{
+        margin-left: 25px;
+       }
+     }
     </style>
 
 </head>
 <body>
 <div class="container mt-4">
     <h2 class="text-center heading mb-4">Applied Candidate</h2><hr>
-    <div th:if="${applicationdata.size() == 0}" class="nodata text-center text-muted">No Candidate have applied yet..</div>
+
+    <div class="navbar navbar-expand-lg d-flex justify-content-between me-0">
+        <div class="mb-4 d-flex justify-content-center align-items-center ">
+            <img th:if="${companydata.file != null}" th:src="@{/companydata/image}"
+                 class="rounded-circle img border border-1" style="width: 50px; height: 50px;">
+            <img th:unless="${companydata.file != null}" src="/Logo/profile.jpg"
+                 class="rounded-circle img border border-1" style="width: 50px; height: 50px;">
+            <h5 class="ms-2" th:text="${companydata.name}"></h5>
+        </div>
+        <div class="selectbox">
+            <form method="get" action="/view-applicants" class="row mb-4">
+                <div class="col-md-8 col-8">
+                    <select name="JobTitle" class="form-select">
+                        <option  disabled selected>select</option>
+                        <option th:each="title : ${jobtitle}"
+                         th:value="${title}"
+                         th:text="${title}">
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-4 col-2">
+                   <button type="submit" class="btn btn-primary">Apply</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div th:if="${applicationdata.size() == 0 || applicationdata==null}" class="nodata text-center text-muted">No Candidate have applied yet..</div>
+
     <div th:each="data , iter : ${applicationdata}" class="card">
+
         <div class="card-body mb-4">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="">
@@ -41,6 +77,7 @@
             <div class="details mt-3" th:id="'details-'+${iter.index}" style="display: none;">
                 <p class="mb-1" th:text="'Contact : ' + ${data.jobseeker.contact}"></p>
                 <p class="mb-1" th:text="'Applied Date : ' + ${data.applied_date}"></p>
+                <p class="mb-1" th:text="'Job Title : ' + ${data.title}"></p>
                 <p class="mb-1"><strong>Resume:</strong>
                     <button class="btn btn-outline-success mt-1" data-bs-toggle="modal" th:data-bs-target="${'#resumeModal'+iter.index}">View Resume</button>
                 </p>
@@ -58,7 +95,6 @@
             </div>
             <div class="modal-body">
                 <iframe th:src="@{'/resume/view/'+ ${data.application_id}}" width="100%" height="600px" frameborder="0">
-
                 </iframe>
             </div>
         </div>

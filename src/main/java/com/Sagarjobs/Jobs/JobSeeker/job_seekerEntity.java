@@ -1,4 +1,4 @@
-package com.Sagarjobs.Jobs.Entity.JobSeeker;
+package com.Sagarjobs.Jobs.JobSeeker;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;

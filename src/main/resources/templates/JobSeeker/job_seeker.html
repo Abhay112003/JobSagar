@@ -40,7 +40,7 @@ form{
 <body>
 <section class="container">
     <div class="form-card">
-    <form class="form1 shadow-lg p-4 m-2 bg-body rounded" th:action="@{/saveData}" th:onsubmit="return checkPassword()" method="post" enctype="multipart/form-data" th:object="${Data}">
+    <form class="form1 shadow-lg p-4 m-2 bg-body rounded" th:action="@{/SeekerOtpverification}" th:onsubmit="return checkPassword()" method="post" enctype="multipart/form-data" th:object="${Data}">
         <h2 class="header text-center">Users Registration </h2>
         <div class="mb-2">
             <label for="name" class="form-label">Enter Name</label>

@@ -1,11 +1,11 @@
-package com.Sagarjobs.Jobs.Entity.CompanyEntities;
+package com.Sagarjobs.Jobs.Companies;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "companies")
-public class JobEntity {
+public class CompanyEntity {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 int company_id;
@@ -26,7 +26,7 @@ String password;
 byte [] file;
 
 
-    public JobEntity(int company_id, String name, String contact, String email, String address, String company_type, String description, String password, byte[] file) {
+    public CompanyEntity(int company_id, String name, String contact, String email, String address, String company_type, String description, String password, byte[] file) {
         this.company_id = company_id;
         this.name = name;
         this.contact = contact;
@@ -38,7 +38,7 @@ byte [] file;
         this.file = file;
     }
 
-    public JobEntity() {
+    public CompanyEntity() {
     }
 
     public int getCompany_id() {

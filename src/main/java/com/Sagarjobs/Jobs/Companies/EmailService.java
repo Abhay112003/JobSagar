@@ -1,4 +1,4 @@
-package com.Sagarjobs.Jobs.CompanyOtp;
+package com.Sagarjobs.Jobs.Companies;
 
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;

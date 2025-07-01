@@ -1,7 +1,5 @@
-package com.Sagarjobs.Jobs.CompaniesService;
+package com.Sagarjobs.Jobs.Companies;
 
-import com.Sagarjobs.Jobs.Entity.CompanyEntities.JobEntity;
-import com.Sagarjobs.Jobs.Repository.JobsRepositary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +7,10 @@ import org.springframework.stereotype.Service;
 public class CompanySaveService {
 
    @Autowired
-    JobsRepositary jobsRepositary;
+   JobRepositary jobsRepositary;
 
     //Save company profileData
-   public void save(JobEntity job)
+   public void save(CompanyEntity job)
    {
        jobsRepositary.save(job);
    }

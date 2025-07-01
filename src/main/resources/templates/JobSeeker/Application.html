@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+   <form th:action="@{/SaveApplication}" method="post" enctype="multipart/form-data">
+       <label for="company">Company id</label>
+       <input type="number" id="company" name="company">
+       <br>
+       <label for="seeker">Seeker id</label>
+       <input type="number" id="seeker" name="seeker">
+       <br>
+       <label for="resume">Resume</label>
+       <input type="file" name="file" id="resume">
+       <br>
+       <label for="status">Status</label>
+       <select id="status" name="status">
+           <option>Applied</option>
+           <option>Pending</option>
+       </select>
+       <br>
+       <label for="applied">Applied Date</label>
+       <input type="date" id="applied" name="applied">
+       <br>
+       <label for="title">Job Title</label>
+       <input type="text" id="title" name="title">
+       <br>
+       <input type="submit">
+   </form>
+</body>
+</html>

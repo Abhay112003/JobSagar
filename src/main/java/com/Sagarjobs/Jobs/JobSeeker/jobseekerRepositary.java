@@ -1,6 +1,5 @@
-package com.Sagarjobs.Jobs.Repository;
+package com.Sagarjobs.Jobs.JobSeeker;
 
-import com.Sagarjobs.Jobs.Entity.JobSeeker.job_seekerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
