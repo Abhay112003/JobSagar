@@ -2,17 +2,19 @@ package com.Sagarjobs.Jobs.Companies;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Service
 public class CompanySaveService {
 
    @Autowired
-   JobRepositary jobsRepositary;
+   CompanyRepositary companyRepositary;
 
     //Save company profileData
-   public void save(CompanyEntity job)
+   public void save(@ModelAttribute("") CompanyEntity job)
    {
-       jobsRepositary.save(job);
+       companyRepositary.save(job);
    }
 
 }

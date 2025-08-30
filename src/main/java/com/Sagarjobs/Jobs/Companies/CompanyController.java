@@ -25,7 +25,7 @@ import java.util.Optional;
 public class CompanyController {
 
 @Autowired
-JobRepositary jobsrepositary;
+CompanyRepositary companyRepositary;
 
 @Autowired
 EmailService emailservice;
@@ -153,7 +153,7 @@ public String Resend(HttpSession session,Model model) throws Exception
       }
 
 
-        companySaveService.save(job);
+          companySaveService.save(job);
           session.removeAttribute("Data");
           session.removeAttribute("otp");
 
@@ -190,7 +190,7 @@ public String Resend(HttpSession session,Model model) throws Exception
     @PostMapping("/logindashboard")
     public String loginpage(@RequestParam("email") String email, @RequestParam("password")String password, Model model, HttpSession session)
     {
-        Optional<CompanyEntity> job=jobsrepositary.findByEmailAndPassword(email,password);
+        Optional<CompanyEntity> job=companyRepositary.findByEmailAndPassword(email,password);
 //        System.out.println("job"+job.isPresent());
         if(job.isPresent()) {
             int loggincompany = job.get().getCompany_id();
@@ -227,7 +227,7 @@ public String Resend(HttpSession session,Model model) throws Exception
       }
       int id=job.getCompany_id();
 
-       CompanyEntity data=jobsrepositary.findById(id).orElseThrow(null);
+       CompanyEntity data=companyRepositary.findById(id).orElseThrow(null);
        if(data == null  || data.getFile()==null)
        {
            ResponseEntity.notFound().build();
@@ -246,7 +246,7 @@ public String Resend(HttpSession session,Model model) throws Exception
             ResponseEntity.notFound().build();
         }
         int id=job.getCompany_id();
-        CompanyEntity data=jobsrepositary.findById(id).orElseThrow(null);
+        CompanyEntity data=companyRepositary.findById(id).orElseThrow(null);
         if(data==null || data.getFile()==null)
         {
             ResponseEntity.notFound().build();
@@ -284,6 +284,7 @@ public String Resend(HttpSession session,Model model) throws Exception
          return "Company/CompanyApplication";
     }
 
+    //application using filter
    @GetMapping("/view-applicants")
    public String Title(@RequestParam(name = "JobTitle" ,required = false ) String title,HttpSession session,Model model)
    {
@@ -311,7 +312,47 @@ public String Resend(HttpSession session,Model model) throws Exception
        return "Company/CompanyApplication";
    }
 
- //logout
+//Company html page call to edit
+    @RequestMapping("/editprofile")
+    public String Edit(Model model,HttpSession session)
+    {
+        CompanyEntity comdata= (CompanyEntity) session.getAttribute("comdata");
+        model.addAttribute("comdata",comdata);
+        return "Company/CompanyEdit";
+    }
+
+    @PostMapping("/company/getcompanyupdate")
+    public String editDone(@Valid @ModelAttribute("comdata") CompanyEntity data,BindingResult result,HttpSession session,Model model)
+    {
+        if(result.hasErrors())
+            return "Company/CompanyEdit";
+        else
+        {
+            CompanyEntity company= (CompanyEntity) session.getAttribute("comdata");
+            int id=company.getCompany_id();
+              System.out.println(id);
+            CompanyEntity company2=companyRepositary.findById(id).orElse(null);
+
+            if(company2==null)
+            {
+                model.addAttribute("error","ID Not Found");
+                return "Company/CompanyDashboard";
+            }
+            company2.setName(data.getName());
+            company2.setEmail(data.getEmail());
+            company2.setAddress(data.getAddress());
+            company2.setContact(data.getContact());
+            company2.setDescription(data.getDescription());
+            companyRepositary.save(company2);
+            model.addAttribute("Update","Company Profile Update");
+            session.setAttribute("comdata",company2);
+            model.addAttribute("comdata",company2);
+            return "Company/CompanyDashboard";
+        }
+    }
+
+
+    //logout
     @GetMapping("/Company/logout")
     public String Logout(HttpSession session)
     {
@@ -320,11 +361,87 @@ public String Resend(HttpSession session,Model model) throws Exception
     }
 
 
- //application
+ //  application
     @RequestMapping("/application")
     public String company()
     {
         return "Company/CompanyApplication";
     }
+
+
+    //forgetPassword
+    @RequestMapping("/forgetpassword")
+    public String ForgetPassword()
+    {
+        return "Company/CompanyForgetPassword";
+    }
+    @RequestMapping("/ForgetOtp")
+    public String ForgetOtp(HttpSession session,@RequestParam("email") String email,Model model)throws Exception
+    {
+        System.out.println(email);
+        Optional<CompanyEntity> company=companyRepositary.findByEmail(email);
+        System.out.println(company);
+        if(!company.isPresent())
+        {
+            model.addAttribute("Error","Email Not Register!");
+        }
+        String OTP=otpService.GenerateOtp(email);
+        emailservice.sendmail(email,OTP);
+        session.setAttribute("comdata",company);
+        session.setAttribute("OTP",OTP);
+        model.addAttribute("comdata",company);
+        model.addAttribute("Send","OTP Send Successfully");
+        return "Company/VerifyOtp";
+    }
+    @GetMapping("/Forgetresendotp")
+    public String ResendOtp(HttpSession session,Model model) throws Exception
+    {
+        Optional<CompanyEntity>company= (Optional<CompanyEntity>) session.getAttribute("comdata");
+         if(company==null)
+         {
+              model.addAttribute("error","Enter again Email");
+         }
+         session.removeAttribute("OTP");
+         CompanyEntity company1=company.get();
+        String OTP=otpService.GenerateOtp(company1.getEmail());
+        emailservice.sendmail(company1.getEmail(),OTP);
+        session.setAttribute("OTP",OTP);
+        model.addAttribute("comdata",company);
+        model.addAttribute("Resend","Resend Successfully");
+        return "Company/VerifyOtp";
+    }
+
+    @GetMapping("/VerifyOtp")
+    public String VerifyOtp(@RequestParam("otp") String otp,HttpSession session,Model model)
+    {
+        Optional<CompanyEntity> company =(Optional<CompanyEntity>)session.getAttribute("comdata");
+        if(company==null)
+        {
+            model.addAttribute("error","Session Expired");
+        }
+        String Otp= (String) session.getAttribute("OTP");
+        if(!otp.equals(Otp)) {
+            model.addAttribute("error", "OTP Didn't Match");
+        }
+        CompanyEntity company1=company.get();
+        model.addAttribute("comdata",company1);
+        session.setAttribute("comdata",company1);
+        return "Company/CompanyResetPassword";
+    }
+
+     @PostMapping("/UpdatePassword")
+      public String UpdatePassword(@RequestParam("password") String password, HttpSession session, Model model)
+     {
+        CompanyEntity company= (CompanyEntity) session.getAttribute("comdata");
+        System.out.println(company);
+        if(company==null)
+        {
+            model.addAttribute("error","Session Expired ! Try Again..");
+        }
+        company.setPassword(password);
+        companyRepositary.save(company);
+        model.addAttribute("Update","Password Updated");
+       return "Company/CompanyLoginPage";
+     }
 }
 

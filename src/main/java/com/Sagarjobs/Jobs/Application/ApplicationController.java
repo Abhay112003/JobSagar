@@ -1,6 +1,10 @@
 package com.Sagarjobs.Jobs.Application;
 
+import com.Sagarjobs.Jobs.Companies.CompanyEntity;
+import com.Sagarjobs.Jobs.Companies.CompanyRepositary;
+import com.Sagarjobs.Jobs.Jobs.JobsRepository;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,15 +17,16 @@ public class ApplicationController {
 
  @Autowired
    private ApplicationRepository applicationRepository;
+@Autowired
+    JobsRepository jobsRepository;
 
-
-@GetMapping("/application")
-    public String application(Model model)
-   {
-       List<ApplicationEntity> data = applicationRepository.findAll();
-       model.addAttribute("ApplicationData",data);
-       return "CompanyApplication";
-   }
+   @GetMapping("/back")
+    public String Back(HttpSession session, Model model)
+    {
+        CompanyEntity company= (CompanyEntity) session.getAttribute("comdata");
+        model.addAttribute("comdata",company);
+        return "Company/CompanyDashboard";
+    }
 
 //   @RequestMapping("/applicationform")
 //   public String application()

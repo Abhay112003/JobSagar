@@ -47,4 +47,5 @@ public class JobsController {
         jobsRepository.save(jobs1);
         return "save";
     }
+
 }
