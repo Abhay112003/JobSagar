@@ -17,9 +17,12 @@ public class ApplicationController {
 
  @Autowired
    private ApplicationRepository applicationRepository;
-@Autowired
+
+    @Autowired
     JobsRepository jobsRepository;
 
+    @Autowired
+    JobsRepository jobsRepositary;
    @GetMapping("/back")
     public String Back(HttpSession session, Model model)
     {
@@ -35,7 +38,54 @@ public class ApplicationController {
 //   }
 
  //Resume Display on Applied Show by id
-   @GetMapping("/resume/view/{application_id}")
+ @GetMapping("/Companyapplication")
+ public String CompanyApplication(HttpSession session,Model model)
+ {
+     CompanyEntity data= (CompanyEntity) session.getAttribute("comdata");
+     int id=data.getCompany_id();
+
+     List<ApplicationEntity> list=applicationRepository.findByCompanyId(id);//list of all application where this id found
+     System.out.println(list);
+
+      model.addAttribute("applicationdata",list);
+      model.addAttribute("companydata",data);
+      session.setAttribute("applicationdata",list);
+
+     List<String> titledata=jobsRepositary.findDistinctJobTitlesByCompanyId(id);//All Single job title show on dropdown to choose;
+     model.addAttribute("jobtitle",titledata);
+     session.setAttribute("jobtitle",titledata);
+     System.out.println(titledata);
+     return "Company/CompanyApplication";
+ }
+
+    //application using filter
+    @GetMapping("/view-applicants")
+    public String Title(@RequestParam(name = "JobTitle" ,required = false ) String title,HttpSession session,Model model)
+    {
+        CompanyEntity data= (CompanyEntity) session.getAttribute("companydata");
+        List<String> list= (List<String>) session.getAttribute("applicationdata");
+        List<String> jobtitle= (List<String>) session.getAttribute("jobtitle");
+        int companyid=data.getCompany_id();
+
+        List<ApplicationEntity> applicationdata;
+
+        if(title!=null && !title.isEmpty())
+        {
+            System.out.println(companyid);
+            applicationdata=applicationRepository.findByCompanyIdAndTitle(companyid,title);
+        }
+        else
+        {
+            System.out.println(companyid);
+            applicationdata=applicationRepository.findByCompanyId(companyid);
+        }
+        System.out.println(applicationdata);
+        model.addAttribute("companydata",data);
+        model.addAttribute("jobtitle",jobtitle);
+        model.addAttribute("applicationdata",applicationdata);
+        return "Company/CompanyApplication";
+    }
+    @GetMapping("/resume/view/{application_id}")
     public void showmodelImage(@PathVariable int application_id, HttpServletResponse response)throws Exception
    {
        ApplicationEntity app = applicationRepository.findById(application_id)

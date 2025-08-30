@@ -1,4 +1,4 @@
-package com.Sagarjobs.Jobs;
+package com.Sagarjobs.Jobs.Skills;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
@@ -11,18 +11,22 @@ public class skills {
 @Column(name = "id")
 int skills_id;
 
-int job_seekerid;
+@Column(name = "seeker_id")
+int jobseekerid;
 
 @Size(min = 4 ,message = "Enter a Valid Skills")
-String name;
+String skill;
 @Size(min = 4 ,message = "Enter a valid Category")
 String category;
 
-    public skills(int skills_id, int job_seekerid, String name, String category) {
+char isenabled;
+
+    public skills(int skills_id, int jobseekerid, String skill, String category, char isenabled) {
         this.skills_id = skills_id;
-        this.job_seekerid = job_seekerid;
-        this.name = name;
+        this.jobseekerid = jobseekerid;
+        this.skill = skill;
         this.category = category;
+        this.isenabled = isenabled;
     }
 
     public skills() {
@@ -36,20 +40,20 @@ String category;
         this.skills_id = skills_id;
     }
 
-    public int getJob_seekerid() {
-        return job_seekerid;
+    public int getJobseekerid() {
+        return jobseekerid;
     }
 
-    public void setJob_seekerid(int job_seekerid) {
-        this.job_seekerid = job_seekerid;
+    public void setJobseekerid(int jobseekerid) {
+        this.jobseekerid = jobseekerid;
     }
 
-    public String getName() {
-        return name;
+    public String getSkill() {
+        return skill;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSkill(String skill) {
+        this.skill = skill;
     }
 
     public String getCategory() {
@@ -58,5 +62,13 @@ String category;
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public char getIsenabled() {
+        return isenabled;
+    }
+
+    public void setIsenabled(char isenabled) {
+        this.isenabled = isenabled;
     }
 }

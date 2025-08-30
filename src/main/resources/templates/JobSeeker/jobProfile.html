@@ -1,10 +1,427 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css}">
+  <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css}">
+  <link rel="stylesheet" th:href="@{skill.css}">
+  <style>
+    .overlay{
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      top : 0%;
+      left : 0%;
+      background-color: rgba(0,0,0,0.5);
+      visibility : hidden ;
+      transition: visibility 0.3,opacity 0.3s;
+      z-index : 9999;
+  }
+  .message{
+   background-color: rgb(255, 255, 255);
+   height: 130px;
+   padding: 20px;
+   position: fixed;
+   left: 50%;
+   top: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+   width: 500px;
+   border-radius: 20px;
+  }
+  .message p{
+      font-size: 18px;
+  }
+  .buttons
+  {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 40px;
+  padding-right: 40px;
+  }
+   .overlay.show {
+        visibility: visible;
+        opacity: 1;
+    }
+@media (max-width: 700px) {
+    .message{
+ background-color: rgb(255, 255, 255);
+ height: 110px;
+ padding: 20px;
+ position: fixed;
+ left: 50%;
+ top: 50%;
+transform: translate(-50%,-50%);
+box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+ width: 360px;
+ border-radius: 20px;
+}
+p{
+    font-size: 14px;
+}
+}
+  </style>
 </head>
 <body>
-$END$
+
+<div th:fragment="SeekerTopHeader(seekerData)">
+<div th:if="${Updated}">
+ <script>
+   alert('Update Profile :');
+ </script>
+</div>
+  <div th:if="${Deleted}">
+    <script>
+      alert('Deleted Skill');
+    </script>
+  </div>
+<div th:if="${error}">
+<script>
+  alert('Session Expired : ');
+</script>
+</div>
+  <div th:if="${DeletedExperience}">
+    <script>
+      alert('Experience Deleted :');
+    </script>
+  </div>
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container">
+    <a class="navbar-brand" href="#">
+      <img src="Logo/websitelogo.png" alt="" width="45px" height="45px">Job Sagar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link " aria-current="page" href="#">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Jobs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Application</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="">About</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="d-flex align-items-center">
+      <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown">
+          <img th:if="${seekerData.profile_picture != null}" th:src="@{/getProfile}"
+               class="rounded-circle me-2" style="width : 60px ; height : 60px;">
+          <img th:unless="${seekerData.profile_picture!= null}" src="/Logo/profile.jpg" class="rounded-circle me-2"
+               width="40px" height="40px">
+          <span class="d-none d-sm-inline" th:text="${seekerData.name}" style="text-transform : uppercase"></span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><a class="dropdown-item " href="#">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Log Out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+</div>
+
+<section class="container ">
+  <div class="row">
+    <div class="col-lg-3 col-sm-12 sidebar sticky-top profile mt-3" th:fragment="SeekerSideHeader(seekerData)">
+      <div class="d-flex flex-column align-items-center ">
+        <img th:if="${seekerData.profile_picture != null}" th:src="@{/getProfile}" class="rounded-circle mt-2" style="height: 100px; width: 100px;">
+        <img th:unless="${seekerData.profile_picture != null}" src="Logo/profile.jpg" class="rounded-circle" style="height: 100px; width: 100px;">
+        <p class="fw-bold" style="font-size: 18px; text-transform : uppercase" th:text="${seekerData.name}">Jhon Deo</p>
+        <button class="btn btn-sm btn-primary" style="padding: 3px 14px;"><i class="bi bi-pencil-square fs-6"></i>  Edit Profile</button>
+      </div>
+      <hr>
+      <ul class="navbar-nav ms-4 mb-3">
+        <li class="nav-item ">
+          <a class="nav-link sidebar-link active" aria-current="page" href="#">
+            <i class="fa-solid fa-gauge-high me-2"></i>
+            Dashboard</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link sidebar-link " href="#">
+            <i class="fa-solid fa-user me-2"></i>
+            My Profile</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link sidebar-link " href="#">
+            <i class="fa-solid fa-graduation-cap me-2"></i>
+            Qualification</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link sidebar-link " href="">
+            <i class="fa-solid fa-briefcase me-2"></i>
+            Experience</a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link sidebar-link " href="">
+            <i class="fa-solid fa-code me-2"></i>
+            Skills</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="col-lg-9 mt-3">
+      <div class="row g-1 mb-3">
+        <div class="col-lg-3 col-md-6 card">
+          <div class="card-body content text-center">
+            <h6 class="card-title text-muted mb-2">Profile Completion</h6>
+            <div class="progress mx-auto mb-3" style="height: 12px; width: 80%;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-success" style="width: 80%">100%</div>
+            </div>
+            <span class="badge bg-success rounded-pill mb-5">Completed</span>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 card">
+          <div class="card-body content text-center">
+            <h6 class="card-title text-muted mb-2">Skills</h6>
+            <div class="progress mx-auto mb-3" style="height: 12px; width: 80%;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-danger" style="width: 100%">100%</div>
+            </div>
+            <span class="badge bg-danger rounded-pill mb-5">Completed</span>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 card">
+          <div class="card-body content text-center">
+            <h6 class="card-title text-muted mb-2">Experience</h6>
+            <div class="progress mx-auto mb-3" style="height: 12px; width: 80%;" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-danger" style="width: 50%">50%</div>
+            </div>
+            <span class="badge bg-danger rounded-pill mb-5">Completed</span>
+          </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 card">
+          <div class="card-body content text-center">
+            <h6 class="card-title text-muted mb-2">Qualification</h6>
+            <div class="progress mx-auto mb-3" style="height: 12px; width: 80%;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+              <div class="progress-bar bg-success" style="width: 100%">100%</div>
+            </div>
+            <span class="badge bg-success rounded-pill mb-5">Completed</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="card content m-2 mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <h5 class="fw-bold"><i class="fa-solid fa-user"></i> Personal Infromation</h5>
+          <a type="button" th:href="@{/GetUpdate}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square fs-6"></i> Edit</a>
+        </div>
+
+        <hr>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="mb-2">
+                <label class="form-label text-muted"><i class="fas fa-user me-1"></i>Full Name</label>
+                <p class="form-control-static" th:text="${seekerData.name}">John Doe</p>
+              </div>
+              <div class="mb-2">
+                <label class="form-label text-muted"><i class="fa-solid fa-envelope"></i> Email</label>
+                <p class="form-control-static" th:text="${seekerData.email}">abc@gmail.com</p>
+              </div>
+              <div class="mb-2">
+                <label class="form-label text-muted"><i class="fa-solid fa-phone"></i> Contact Number</label>
+                <p class="form-control-static" th:text="${seekerData.contact}">+91 3487384724</p>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="mb-2">
+                <label class="form-label text-muted"><i class="fa-solid fa-location-dot"></i> Address</label>
+                <p class="form-control-static" th:text="${seekerData.address}">+91 3487384724</p>
+              </div>
+              <div class="mb-2">
+                <label class="form-label text-muted"><i class="fa-solid fa-file"></i> Resume</label>
+                <p class="form-control-static">
+                  <button class="btn btn-sm btn-outline-primary" th:data-bs-target="${'#resumeModal' + seekerData.jobseeker_id}" data-bs-toggle="modal">
+                    <i class="fa-solid fa-file"></i>
+                    View Resume
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!--   Resume Model  -->
+      <div class="modal fade" th:id="${'resumeModal' + seekerData.jobseeker_id}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog model-xxl">
+          <div class="modal-content rounded-3 shadow-lg">
+           <div class="modal-header bg-light">
+              <h1 class="modal-title" th:text="'Resume of '+ ${seekerData.name}"></h1>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+           </div>
+          <div class="modal-body">
+             <iframe th:src="@{'/resume/seeker/' + ${seekerData.jobseeker_id}}" width="100%" height="800" frameborder="0">
+             </iframe>
+          </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card content m-2 mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <h5 class="fw-bold"><i class="fa-solid fa-code "></i> Skills</h5>
+          <a type="button" th:href="@{/getskill}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square fs-6"></i> Add</a>
+        </div>
+        <div class="card-body">
+          <!-- if -->
+
+          <!-- else -->
+          <div th:if="${skillData == null || skillData.empty}" class="alert alert-danger">
+            <i class="fas fa-info-circle me-2"></i>You haven't added any skills yet.
+            <a th:href="@{/getskill}" class="alert-link">Add your skills</a>
+          </div>
+          <div class="row" th:unless="${skillData == null}">
+            <div class="col-md-4 mb-3" th:each="skillD : ${skillData}">
+              <div class="card content">
+                <div class="card-body">
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <h5 th:text="${skillD.skill}">Skill Name</h5>
+                      <p  th:text="${skillD.category}" class="text-muted">Categories</p>
+                    </div>
+                    <form th:action="@{/DeleteSkill}" onsubmit="fun1(event)">
+                      <input type="hidden" name="skills_id" th:value="${skillD.skills_id}">
+                      <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+      </div>
+
+      <!-- Qualification -->
+      <div class="card content m-2 mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <h4><i class="fa-solid fa-briefcase"></i> Work Experience</h4>
+          <a type="button" th:href="@{/experience}" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-pen-to-square"></i> Add</a>
+        </div>
+        <div class="card-body">
+        <div th:if="${experiencelist == null || experiencelist.empty}" class="alert alert-danger mt-3 mb-3">
+          <i class="fas fa-info-circle me-2"></i>you haven't added any experience yet
+          <a th:href="@{/experience}" class="alert-link">Add Experience</a>
+        </div>
+        <div class="row" th:unless="${experiencelist == null}" >
+          <div class="col-md-12 m-2" th:each="explist : ${experiencelist}" >
+           <div class="card content">
+            <div class="card-body d-flex justify-content-between">
+            <div>
+              <h5 th:text=" ${explist.jobtitle}"></h5>
+              <p class="text-muted" th:text="'Company Name - ' + ${explist.companyname}">Company Name</p>
+              <p>
+                <p> Start date<br>
+                  <span class="text-muted" th:text="${#dates.format(explist.startdate,'yyyy-MM-dd')}"></span>
+                </p>
+                <p>End Date<br>
+                  <span class="text-muted" th:text="${#dates.format(explist.enddate,'yyyy-MM-dd')}"></span>
+                </p>
+              </p>
+              <p> Description <br>
+                <span class="text-muted" th:text="${explist.description}"></span>
+              </p>
+            </div>
+            <form th:action="@{/DeleteExperience}" onsubmit="fun1(event)">
+              <input type="hidden" name="exp_id" th:value="${explist.exid}">
+              <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+            </form>
+          </div>
+           </div>
+          </div>
+        </div>
+        </div>
+        </div>
+
+      <div class="card content m-3 mb-3">
+        <div class="card-header d-flex justify-content-between">
+          <h4>Education & Qualifications</h4>
+          <button type="button" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil-square fs-6"></i> Add</button>
+        </div>
+        <div class="card-body d-flex justify-content-between">
+          <div>
+            <h4>Degree Program</h4>
+            <p class="text-muted">institution</p>
+            <p>
+              <span>Start Date</span>
+              <span>End Date</span>
+            </p>
+            <p class="fw-bold">
+              Major :
+            </p>
+            <p class="fw-bold">
+              grade/GPA :
+            </p>
+          </div>
+          <div>
+            <button type="button" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Second Column End Here -->
+    <!-- Continue -->
+  </div>
+</section>
+
+<div class="overlay" id="confirmation">
+  <div class="message">
+    <p class="text-center">Are You Sure ? Do You Want To Delete This Skill</p>
+    <div class="buttons">
+      <button type="button" class="btn btn-success" id="confirmBtn">Confirm</button>
+      <button type="button" class="btn btn-danger" id="cancelBtn">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+ let ischecked=false;
+  function fun1(event){
+    event.preventDefault();
+
+   const overlay=document.getElementById('confirmation');
+
+    overlay.classList.add('show');
+
+    document.getElementById('cancelBtn').onclick = () =>{
+   ischecked =false;
+    overlay.classList.remove('show');
+    };
+
+    document.getElementById('confirmBtn').onclick = ()=>{
+     ischecked=true;
+     overlay.classList.remove('show');
+
+    if(ischecked==true)
+    {
+      event.target.submit();
+    }
+    };
+
+  }
+</script>
+
+
+<script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js}" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 </body>
 </html>

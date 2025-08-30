@@ -1,10 +1,217 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css}" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css}">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{skill.css}">
+    <style>
+        .col{
+            height: 500px;
+        }
+        .skillset{
+           padding : 2% 10%;
+         box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+          border-radius :20px;
+        }
+        .skillset:hover{
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.10);
+           padding : 2% 10%;
+           border-radius :20px;
+
+        }
+
+        card{
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.02);
+        }
+        card:hover{
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.10);
+        }
+        .heading{
+        }
+        input{
+            border: none;
+            height: 45px;
+        }
+        span i{
+            width: 16px;
+            color: gray;
+            border: none;
+        }
+        .card{
+            border-radius: 20px;
+            padding: 5px;
+           box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+        }
+
+
+         .overlay{
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      top : 0%;
+      left : 0%;
+      background-color: rgba(0,0,0,0.5);
+      visibility : hidden ;
+      transition: visibility 0.3,opacity 0.3s;
+      z-index : 9999;
+  }
+  .message{
+   background-color: rgb(255, 255, 255);
+   height: 130px;
+   padding: 20px;
+   position: fixed;
+   left: 50%;
+   top: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+   width: 500px;
+   border-radius: 20px;
+  }
+  .message p{
+      font-size: 18px;
+  }
+  .buttons
+  {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 40px;
+  padding-right: 40px;
+  }
+   .overlay.show {
+        visibility: visible;
+        opacity: 1;
+    }
+@media (max-width: 700px) {
+    .message{
+ background-color: rgb(255, 255, 255);
+ height: 110px;
+ padding: 20px;
+ position: fixed;
+ left: 50%;
+ top: 50%;
+transform: translate(-50%,-50%);
+box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+ width: 360px;
+ border-radius: 20px;
+}
+p{
+    font-size: 14px;
+}
+}
+    </style>
 </head>
 <body>
-$END$
+<div th:replace="~{JobSeeker/jobProfile :: SeekerTopHeader(${seekerData})}"></div>
+<div th:if="${Update}">
+    <script>
+        alert('Skill Added !');
+    </script>
+</div>
+<div class="container">
+    <div class="row ">
+        <div class="col-lg-3"  th:replace="~{JobSeeker/jobProfile :: SeekerSideHeader(${seekerData})}"></div>
+        <div class="col second col-lg-9 mt-3 mb-4">
+            <form th:action="@{/SkillSave}" class="skillset" method="post" th:object="${Data}">
+                <h2 class="heading text-center fw-bold pt-3">ADD SKILLS</h2>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Skills Name</label>
+                    <div class="input-group mb-3 mt-2 w-75">
+                        <span class="input-group-text"><i class="fa-solid fa-user"></i></span>
+                        <input type="text" class="form-control" name="skill" placeholder="e.g Java, Python, C, C++ .." aria-label="Username">
+                    </div>
+                    <p th:each="err : ${#fields.errors('skill')}" th:text="${err}" style="color : red; "></p>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Category</label>
+                    <div class="input-group mb-3 mt-2 w-75">
+                        <span class="input-group-text"><i class="fa-solid fa-code"></i></i></span>
+                        <input type="text" class="form-control" name="category" placeholder="e.g Development, UI/UX  .." aria-label="Username">
+                    </div>
+                    <p th:each="err : ${#fields.errors('category')}" th:text="${err}" style="color : red ;"></p>
+                </div>
+
+                <div class="btn-both gap-3 d-flex justify-content-start  mt-4">
+                    <button class="btn btn-outline-dark " type="button" >Cancel</button>
+                    <button type="submit" class="btn btn-success ">Update Change</button>
+                </div>
+            </form>
+
+            <div class="card  mt-3 mb-3">
+                <div class="card-header">
+                    <h3 class="card-title">SKILLS</h3>
+                </div>
+                <h5 th:if="${skillData == null}" class="text-center text-muted m-3" >No Skill Added Yet</h5>
+                <div th:unless="${skillData == null}">
+                <div class="card-body" th:each="skillD : ${skillData}">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body d-flex justify-content-between">
+                                   <div>
+                                    <h5 class="fw-bold" th:text="${skillD.skill}">SKILLS</h5>
+                                    <p class="text-muted" th:text="${skillD.category}">Category</p>
+                                   </div>
+                                    <form th:action="@{/DeleteSkill}" onsubmit="fun1(event)">
+                                        <input type="hidden" name="skills_id" th:value="${skillD.skills_id}">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                                    </form>
+                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="overlay" id="confirmation">
+    <div class="message">
+        <p class="text-center">Are You Sure ? Do You Want To Delete This Skill</p>
+        <div class="buttons">
+            <button type="button" class="btn btn-success" id="confirmBtn">Confirm</button>
+            <button type="button" class="btn btn-danger" id="cancelBtn">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    let ischecked=false;
+     function fun1(event){
+       event.preventDefault();
+
+      const overlay=document.getElementById('confirmation');
+
+       overlay.classList.add('show');
+
+       document.getElementById('cancelBtn').onclick = () =>{
+      ischecked =false;
+       overlay.classList.remove('show');
+       };
+
+       document.getElementById('confirmBtn').onclick = ()=>{
+        ischecked=true;
+        overlay.classList.remove('show');
+
+       if(ischecked==true)
+       {
+         event.target.submit();
+       }
+       };
+
+     }
+</script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js}" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js}" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 </body>
 </html>

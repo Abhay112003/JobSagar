@@ -12,9 +12,16 @@ public class CompanySaveService {
    CompanyRepositary companyRepositary;
 
     //Save company profileData
-   public void save(@ModelAttribute("") CompanyEntity job)
+   public void save(@ModelAttribute("job") CompanyEntity job)
    {
        companyRepositary.save(job);
+   }
+
+   public void saveimage(byte [] file ,CompanyEntity company)
+   {
+       company.setFile(file);
+       companyRepositary.save(company);
+       System.out.println("Save");
    }
 
 }

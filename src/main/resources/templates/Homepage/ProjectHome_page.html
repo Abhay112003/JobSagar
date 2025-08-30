@@ -7,394 +7,167 @@
   <title>City Job Portal Header</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <style>
-    body {
-      margin-left: 10px;
-      margin-right: 10px;
-    }
+<style>
 
-    .search-mobile-row {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .desktop-search {
-        display: none;
-      }
-
-      .search-mobile-row {
-        display: block;
-        padding: 10px 15px;
-      }
-    }
-
-    @media (min-width: 769px) {
-      .mobile-search-icon {
-        display: none !important;
-      }
-    }
-
-    .dropdown-submenu {
-      position: relative;
-    }
-
-    .dropdown-submenu>.dropdown-menu {
-      top: 0;
-      left: 100%;
-      margin-top: -1px;
-    }
-
-    .nav-link {
-      padding: 0.5rem 1.2rem;
-    }
-
-    .logo {
-      height: 80px;
-      width: 80px;
-    }
-
-    /* Middle theme  */
-    .carousel-item {
-      height: 100vh;
-      background-size: cover;
-      background-position: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
-    }
-
-    .carousel-caption-custom {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 10px;
-      width: 100%;
-      max-width: 1000px;
-    }
-
-    .form-inline-group {
-      display: flex;
-      flex-wrap: nowrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .form-inline-group .form-control,
-    .form-inline-group .form-select,
-    .form-inline-group .input-group {
-      flex: 1;
-      min-width: 150px;
-    }
-
-    @media (max-width: 768px) {
-      .form-inline-group {
-        flex-direction: column;
-      }
-    }
-
-    /* Given below is the CSS of the profession comes under the dropdown of jobs  */
-    .professions-navbar {
-      background-color: #0d6efd;
-      width: 800px;
-    }
-
-    .professions-navbar .nav-link {
-      color: white;
-      font-weight: 500;
-      padding: 0.75rem 1rem;
-    }
-
-    .professions-navbar .nav-link:hover,
-    .professions-navbar .nav-link.active {
-      background-color: #0b5ed7;
-      color: #ffffff;
-    }
-
-    @media (max-width: 768px) {
-      .professions-navbar .nav-link {
-        font-size: 0.9rem;
-        padding: 0.5rem 0.75rem;
-      }
-    }
-
-    .preofession-container {
-      margin-left: 40px;
-      margin-right: 40px;
-    }
-
-    .profession-type {
-      width: 100%;
-    }
-
-    /* navitem->dropdown->subdropdown */
-    /* Custom styles for sub-dropdowns */
-    .dropdown-submenu {
-      position: relative;
-    }
-
-    .dropdown-submenu .dropdown-menu {
-      top: 0;
-      left: 100%;
-      margin-left: 0;
-      margin-top: -1px;
-      display: none;
-    }
-
-    .dropdown-submenu:hover .dropdown-menu {
-      display: block;
-    }
-
-    #dropdownsubmenu {
-      margin-left: 2px;
-      margin-right: 2px;
-    }
-
-    /* <---------------------------------------> */
-  </style>
+</style>
 </head>
-
 <body>
-  <!-- 🔵 First Row -->
-  <div class="container-fluid py-2 border-bottom" style="  background-color: #c2cfe5">
-    <div class="d-flex justify-content-between align-items-center">
+<header class="sticky-top shadow" th:fragment="head">
+  <div class="container-fluid head py-2 px-4" style="background-color: white;">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+
       <!-- Logo -->
       <div class="d-flex align-items-center gap-3">
-        <img src="Logo/websitelogo.png" class="logo" alt="Logo" />
+        <img src="Logo/websitelogo.png" alt="Logo" style="height:80px;width:80px;">
+        <h3 class="fw-bold mb-0" style="color: black;">Sagar Jobs</h3>
       </div>
 
-      <!-- Search Bar (Large Screens) -->
-      <div class="input-group desktop-search mx-3" style="max-width: 400px;">
-        <input type="text" class="form-control" placeholder="Search Jobs" />
-        <button class="btn btn-outline-secondary bg-secondary " type="button"><i class="bi bi-search "
-            style="color: aliceblue;"></i></button>
-      </div>
-
-      <!-- Login, Signup & Search Icon -->
-      <div class="d-flex align-items-center gap-2">
-        <!-- Search icon (for small screens) -->
-        <button class="btn btn-secondary mobile-search-icon" style="color: aliceblue;" onclick="toggleMobileSearch()">
-          <i class="bi bi-search"></i>
-        </button>
-
-        <!-- Login dropdown -->
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Login</button>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" th:href="@{/login}">Employer</a></li>
-            <li><a class="dropdown-item" href="#">Seeker</a></li>
-          </ul>
-        </div>
-
-        <!-- Signup dropdown -->
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown">Signup</button>
-          <ul class="dropdown-menu dropdown-menu-end ">
-            <li><a class="dropdown-item" th:href="@{/CompanyRegistration}">Employer</a></li>
-            <li><a class="dropdown-item" th:href="@{/seekerform}">Seeker</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 🟡 Second Row (mobile search bar only) -->
-  <div id="mobileSearchRow" class="container-fluid search-mobile-row">
-    <div class="input-group my-2">
-      <input type="text" class="form-control" placeholder="Search Jobs..." />
-      <button class="btn btn-outline-secondary" type="button"><i class="bi bi-search"></i></button>
-    </div>
-  </div>
-
-  <!-- 🟢 Third Row (Navigation) -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3">
-
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-        <!-- Home Menu -->
-        <li class="nav-item ">
-          <a class="nav-link" th:href="@{/homepage}">Home</a>
-        </li>
-
-        <!-- Job Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="jobsDropdown" role="button" data-bs-toggle="dropdown">
-            Jobs
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="jobsDropdown">
-            <!-- IT Jobs (Sub-dropdown) -->
-            <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="#">> IT Jobs</a>
-              <ul class="dropdown-menu" th:id="dropdownsubmenu">
-                <li><a class="dropdown-item" href="#">> Front End Developer</a></li>
-                <li><a class="dropdown-item" href="#">> Back End Developer</a></li>
-                <li><a class="dropdown-item" href="#">> Full Stack Development</a></li>
-                <li><a class="dropdown-item" href="#">> Mobile Development</a></li>
-                <li><a class="dropdown-item" href="#">> DevOps And infrastructure</a></li>
-                <li><a class="dropdown-item" href="#">> Security and Testing</a></li>
-                <li><a class="dropdown-item" href="#">> Game Development</a></li>
-                <li><a class="dropdown-item" href="#">> Emerging Tech</a></li>
-              </ul>
-            </li>
-             <li class="dropdown-submenu">
-              <a class="dropdown-item dropdown-toggle" href="#">
-              > Healthcare jops
-              </a>
-              <ul class="dropdown-menu" th:id="dropdownsubmenu">
-                <li><a class="dropdown-item" href="#">>PhysioTherapist </a></li>
-                <li><a class="dropdown-item" href="#">> Neurologist</a></li>
-                  <li><a class="dropdown-item" href="#">> Cardiologist</a></li>
-                <li><a class="dropdown-item" href="#">> Psychiatrist</a></li>
-
-              </ul>
-            </li>
-          </ul>
-        </li>
-
-
-
-        <!-- Companies Menu -->
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Companies</a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Product based company</a></li>
-            <li><a class="dropdown-item" href="#">Service based company</a></li>
-          </ul>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="#">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/contactus}">Contact</a>
-        </li>
-
-      </ul>
-    </div>
-  </nav>
-
-
-
-  <!-- Theme Final  -->
-<section th:replace="${content}"></section>
-
-
-
-  <script>
-    function toggleMobileSearch() {
-      const row = document.getElementById("mobileSearchRow");
-      row.style.display = row.style.display === "none" || row.style.display === "" ? "block" : "none";
-    }
-  </script>
-
-
-
-
-
-  <!-- Given Below is the footer of the home page  -->
-  <footer class="bg-dark text-white pt-5 pb-3 ">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-1">
-          <!-- Back to top button inserted fix to move to the top of the page on the single click  -->
-          <!-- Content -->
-          <div class="container-fluid fixed-bottom mb-4">
-
-            <!-- Back to Top Button -->
-            <button onclick="scrollToTop()" id="backToTop" title="Go to top"
-              style="background-color: azure; color: rgba(0, 0, 0, 0.7);">
-              ↑
-            </button>
+      <!-- Navigation Menu -->
+      <nav class="navbar navbar-expand-lg navbar-dark p-0">
+        <div class="container-fluid p-0">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-flex align-items-center gap-lg-3">
+              <li class="nav-item"><a class="nav-link active text-black fw-bold" href="#">Home</a></li>
+              <li class="nav-item"><a class="nav-link text-black fw-bold" href="#">Jobs</a></li>
+              <li class="nav-item"><a class="nav-link text-black fw-bold" href="#">Employers</a></li>
+              <li class="nav-item"><a class="nav-link text-black fw-bold" href="#">About</a></li>
+              <li class="nav-item"><a class="nav-link text-black fw-bold" th:href="@{/Contact}">Contact</a></li>
+            </ul>
           </div>
-          <script>
-            // Show/hide button on scroll
-            window.onscroll = function () {
-              const btn = document.getElementById("backToTop");
-              if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                btn.style.display = "block";
-              } else {
-                btn.style.display = "none";
-              }
-            };
+        </div>
+      </nav>
 
-            // Smooth scroll to top
-            function scrollToTop() {
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-              });
+      <!-- Action Dropdowns -->
+      <div class="d-flex align-items-center gap-2 mt-2 mt-lg-0">
+
+        <!-- Login Dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-light fw-bold shadow-sm dropdown-toggle text-dark" type="button" id="loginDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Employer
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="loginDropdown">
+            <li><a class="dropdown-item fw-bold" th:href="@{LoginPage}"> Login</a></li>
+            <li><a class="dropdown-item fw-bold" th:href="@{CompanyRegistration}"> Signup</a></li>
+          </ul>
+        </div>
+
+        <!-- Signup Dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-light fw-bold shadow-sm dropdown-toggle text-dark" type="button" id="signupDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            Seeker
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="signupDropdown">
+            <li><a class="dropdown-item fw-bold" th:href="@{seekerLogin}">Login </a></li>
+            <li><a class="dropdown-item fw-bold" href="">Signup </a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<footer class=" text-white pt-5 pb-3 " style="background: rgb(48, 46, 46); color:white;" th:fragment="foot">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-1">
+        <!-- Back to top button inserted fix to move to the top of the page on the single click  -->
+        <!-- Content -->
+        <div class="container-fluid fixed-bottom mb-4">
+
+          <!-- Back to Top Button -->
+          <button onclick="scrollToTop()" id="backToTop" title="Go to top"
+                  style="background-color: azure; color: rgba(26, 25, 25, 0.7);">
+            ↑
+          </button>
+        </div>
+        <script>
+          // Show/hide button on scroll
+          window.onscroll = function () {
+            const btn = document.getElementById("backToTop");
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+              btn.style.display = "block";
+            } else {
+              btn.style.display = "none";
             }
-          </script>
+          };
 
-        </div>
-        <!-- Logo Column -->
-        <div class="col-md-3 mb-4">
-          <img src="Logo/websitelogo.png" alt="Job Portal Logo" class="img-fluid mb-3 w-50">
-          <p>Find your dream job or hire top talent fast — all in one place.</p>
-        </div>
-        <!-- Footer Links and Details -->
-        <div class="col-md-8">
-          <div class="row">
-            <!-- Quick Links -->
-            <div class="col-sm-3 mb-3">
-              <h5>Quick Links</h5>
-              <ul class="list-unstyled">
-                <li><a href="#home" class="text-white text-decoration-none">Home</a></li>
-                <li><a href="#jobs" class="text-white text-decoration-none">Jobs</a></li>
-                <li><a href="#companies" class="text-white text-decoration-none">Companies</a></li>
-                <li><a th:href="@{/contactus}" class="text-white text-decoration-none">Contact Us</a></li>
-                <li><a th:href="@{/termandcondition}" class="text-white text-decoration-none">Terms and condition</a></li>
-              </ul>
-            </div>
+          // Smooth scroll to top
+          function scrollToTop() {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth"
+            });
+          }
+        </script>
 
-            <!-- Services -->
-            <div class="col-sm-4 mb-3">
-              <h5>Services</h5>
-              <ul class="list-unstyled">
-                <li><a href="#" class="text-white text-decoration-none">Post a Job</a></li>
-                <li><a href="#" class="text-white text-decoration-none">Search Resumes</a></li>
-                <li><a href="#" class="text-white text-decoration-none">Job Alerts</a></li>
-                <li><a href="#" class="text-white text-decoration-none">Employer Login</a></li>
-              </ul>
-            </div>
+      </div>
+      <!-- Logo Column -->
+      <div class="col-md-3 mb-4">
+        <img src="Logo/websitelogo.png" alt="Job Portal Logo" class="img-fluid mb-3 w-50">
+        <p>Find your dream job or hire top talent fast — all in one place.</p>
+      </div>
+      <!-- Footer Links and Details -->
+      <div class="col-md-8">
+        <div class="row">
+          <!-- Quick Links -->
+          <div class="col-sm-3 mb-3">
+            <h5>Quick Links</h5>
+            <ul class="list-unstyled">
+              <li><a href="#home" class="text-white text-decoration-none">Home</a></li>
+              <li><a href="#jobs" class="text-white text-decoration-none">Jobs</a></li>
+              <li><a href="#companies" class="text-white text-decoration-none">Companies</a></li>
+              <li><a th:href="@{Contact}" class="text-white text-decoration-none">Contact Us</a></li>
+              <li><a th:href="@{/termandcondition}" class="text-white text-decoration-none">Terms and condition</a></li>
+            </ul>
+          </div>
 
-            <!-- Contact -->
-            <div class="col-sm-4 mb-3">
-              <h5>Contact</h5>
-              <p class="mb-1"><i class="bi bi-geo-alt-fill me-2"></i>369,Xansa IT Solutions ,Sagar</p>
-              <p class="mb-1"><i class="bi bi-envelope-fill me-2"></i>SagarJobTalent.com</p>
-              <p><i class="bi bi-telephone-fill me-2"></i>+91 8770480826</p>
-            </div>
+          <!-- Services -->
+          <div class="col-sm-4 mb-3">
+            <h5>Services</h5>
+            <ul class="list-unstyled">
+              <li><a href="#" class="text-white text-decoration-none">Post a Job</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Search Resumes</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Job Alerts</a></li>
+              <li><a href="#" class="text-white text-decoration-none">Employer Login</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact -->
+          <div class="col-sm-4 mb-3">
+            <h5>Contact</h5>
+            <p class="mb-1"><i class="bi bi-geo-alt-fill me-2"></i>369,Xansa IT Solutions ,Sagar</p>
+            <p class="mb-1"><i class="bi bi-envelope-fill me-2"></i>SagarJobTalent.com</p>
+            <p><i class="bi bi-telephone-fill me-2"></i>+91 8770480826</p>
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Divider -->
-      <hr class="border-secondary">
+    <!-- Divider -->
+    <hr class="border-secondary">
 
-      <!-- Bottom Row -->
-      <div class="row align-items-center">
-        <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-          <p class="mb-0">&copy; 2025 Sagar Job Talent. All rights reserved.</p>
-        </div>
-        <div class="col-md-6 text-center text-md-end">
-          <a href="#" class="me-2">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
-              alt="Google Play" height="40">
-          </a>
-          <a href="#">
-            <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store"
-              height="40">
-          </a>
-        </div>
+    <!-- Bottom Row -->
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start mb-3 mb-md-0 text-center">
+        <p class="mb-0">&copy; 2025 Sagar Job Talent. All rights reserved.</p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="#" class="me-2">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+               alt="Google Play" height="40">
+        </a>
+        <a href="#">
+          <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store"
+               height="40">
+        </a>
       </div>
     </div>
-  </footer>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

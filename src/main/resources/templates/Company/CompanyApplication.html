@@ -29,81 +29,81 @@
 
 </head>
 <body>
-<div class="container mt-4">
-    <h2 class="text-center heading mb-4">Applied Candidate</h2><hr>
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold text-primary">Applied Candidates</h2>
+    <hr class="mb-4">
 
-    <div class="navbar navbar-expand-lg d-flex justify-content-between me-0">
-        <div class="mb-4 d-flex justify-content-center align-items-center ">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <div class="d-flex align-items-center">
             <img th:if="${companydata.file != null}" th:src="@{/companydata/image}"
-                 class="rounded-circle img border border-1" style="width: 50px; height: 50px;">
+                 class="rounded-circle border border-2 shadow-sm" style="width: 60px; height: 60px;">
             <img th:unless="${companydata.file != null}" src="/Logo/profile.jpg"
-                 class="rounded-circle img border border-1" style="width: 50px; height: 50px;">
-            <h5 class="ms-2" th:text="${companydata.name}"></h5>
+                 class="rounded-circle border border-2 shadow-sm" style="width: 60px; height: 60px;">
+            <h5 class="ms-3 mb-0 fw-semibold text-dark" th:text="${companydata.name}"></h5>
+
+
         </div>
-        <div class="selectbox">
-            <form method="get" action="/view-applicants" class="row mb-4">
-                <div class="col-md-8 col-8">
-                    <select name="JobTitle" class="form-select">
-                        <option  disabled selected>select</option>
-                        <option th:each="title : ${jobtitle}"
-                         th:value="${title}"
-                         th:text="${title}">
-                        </option>
-                    </select>
-                </div>
-                <div class="col-md-4 col-2">
-                   <button type="submit" class="btn btn-primary">Apply</button>
-                </div>
-            </form>
-        </div>
+        <form method="get" action="/view-applicants" class="d-flex align-items-center gap-2">
+            <select name="JobTitle" class="form-select shadow-sm">
+                <option disabled selected>Select Job Title</option>
+                <option th:each="title : ${jobtitle}"
+                        th:value="${title}"
+                        th:text="${title}"></option>
+            </select>
+            <button type="submit" class="btn btn-primary shadow-sm">Filter</button>
+        </form>
     </div>
-    <div th:if="${applicationdata.size() == 0 || applicationdata==null}" class="nodata text-center text-muted">No Candidate have applied yet..</div>
 
-    <div th:each="data , iter : ${applicationdata}" class="card">
+    <div th:if="${applicationdata.size() == 0 || applicationdata == null}" class="text-center text-muted fs-5">
+        No candidates have applied yet.
+    </div>
 
-        <div class="card-body mb-4">
+    <div th:each="data, iter : ${applicationdata}" class="card shadow-sm mb-4 border-0 rounded-4">
+        <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
-                <div class="">
-                    <h4 class="mb-1" th:text="${data.jobseeker.name}"></h4>
-                    <p class="text-muted" th:text="${data.jobseeker.email}"></p>
-                </div>
                 <div>
-                    <button class="btn btn-outline-primary " th:onclick="'toggleDetails('+${iter.index}+')'">
-                        View Details
-                    </button>
+                    <h4 class="fw-bold mb-1 text-dark" th:text="${data.jobseeker.name}"></h4>
+                    <p class="text-muted mb-0" th:text="${data.jobseeker.email}"></p>
                 </div>
+                <button class="btn btn-outline-primary btn-sm" th:onclick="'toggleDetails(' + ${iter.index} + ')'">
+                    <i class="bi bi-eye-fill me-1"></i> View Details
+                </button>
             </div>
 
-            <div class="details mt-3" th:id="'details-'+${iter.index}" style="display: none;">
-                <p class="mb-1" th:text="'Contact : ' + ${data.jobseeker.contact}"></p>
-                <p class="mb-1" th:text="'Applied Date : ' + ${data.applied_date}"></p>
-                <p class="mb-1" th:text="'Job Title : ' + ${data.title}"></p>
-                <p class="mb-1"><strong>Resume:</strong>
-                    <button class="btn btn-outline-success mt-1" data-bs-toggle="modal" th:data-bs-target="${'#resumeModal'+iter.index}">View Resume</button>
+            <div class="mt-3 ps-3 border-start" th:id="'details-' + ${iter.index}" style="display: none;">
+                <p class="mb-1"><i class="bi bi-telephone-fill me-2 text-primary"></i><span th:text="'Contact: ' + ${data.jobseeker.contact}"></span></p>
+                <p class="mb-1"><i class="bi bi-calendar3 me-2 text-success"></i><span th:text="'Applied Date: ' + ${data.applied_date}"></span></p>
+                <p class="mb-1"><i class="bi bi-briefcase-fill me-2 text-info"></i><span th:text="'Job Title: ' + ${data.title}"></span></p>
+                <p class="mb-0"><strong>Resume:</strong>
+                    <button class="btn btn-outline-success btn-sm ms-2" data-bs-toggle="modal"
+                            th:data-bs-target="${'#resumeModal' + iter.index}">
+                        View Resume
+                    </button>
                 </p>
             </div>
-
         </div>
+    </div>
 
-<!-- resume Model -->
-<div class="modal fade" th:id="'resumeModal'+${iter.index}" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" th:text="'Resume Of '+${data.jobseeker.name}"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <iframe th:src="@{'/resume/view/'+ ${data.application_id}}" width="100%" height="600px" frameborder="0">
-                </iframe>
+
+    <!-- Resume Modal -->
+    <div th:each="data, iter : ${applicationdata}" class="modal fade" th:id="'resumeModal' + ${iter.index}"
+         tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content rounded-3 shadow-lg">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title fw-semibold" th:text="'Resume of ' + ${data.jobseeker.name}"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <iframe th:src="@{'/resume/view/' + ${data.application_id}}" width="100%" height="600px"
+                            frameborder="0"></iframe>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-</div>
-</div>
-</div>
 
 <script>
     function toggleDetails(index) {

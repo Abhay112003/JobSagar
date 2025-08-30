@@ -1,10 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experience</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body{
+        margin: 0%;
+        padding: 0%;
+    }
+    .header{
+        width : 100%;
+        /* background-color: beige; */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .card
+    {
+        background-color: white;
+        width: 900px;
+        border: none;
+        box-shadow: 0  0 10px rgba(0,0,0,0.09);
+    }
+    .card:hover
+    {
+        transition: all 0.2s ease-in-out;
+        transform: translateY(-6px);
+        box-shadow: 0 0 10px rgba(0,0,0,0.09);
+    }
+  </style>
 </head>
 <body>
-$END$
+<div th:insert="~{JobSeeker/jobProfile :: SeekerTopHeader(${seekerData})}"></div>
+<div class="header mt-5">
+  <div class="card">
+    <div th:if="${Saved}">
+        <script>
+          alert('Add Experience Successfully ');
+        </script>
+       <h4 class="alert alert-success">Add Experience Successfully !!</h4>
+    </div>
+    <div th:if="${error}">
+      <h4 class="alert alert-success">Something Went Wrong</h4>
+    </div>
+    <div class="card-header">
+      <h4 class="card-title"><i class="fas fa-briefcase me-2"></i>Add Experience</h4><hr>
+      <div class="card-body">
+        <form th:action="@{/SavedExperience}" method="post" th:object="${experience}">
+          <div class="mb-3">
+            <label class="form-label">Job Title</label>
+            <input type="text" class="form-control" th:field="*{jobtitle}">
+            <p th:each="err : ${#fields.errors('jobtitle')}" th:text="${err}" style="color : red;"></p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Company Name</label>
+            <input type="text" class="form-control" th:field="*{companyname}">
+            <p th:each="err : ${#fields.errors('companyname')}" th:text="${err}" style="color :red ;"></p>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Start Date</label>
+            <input type="date" class="form-control" th:field="*{startdate}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">End Date</label>
+            <input type="date" class="form-control" th:field="*{enddate}">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" th:field="*{description}"></textarea>
+            <p th:each="err : ${#fields.errors('description')}" th:text="${err}" style="color :red;"></p>
+          </div>
+          <div class="mb-3">
+            <button type="submit" class="btn btn-success">Submit</button>
+            <button type="button" class="btn btn-outline-danger ms-2">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 </html>
